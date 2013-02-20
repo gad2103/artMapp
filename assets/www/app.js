@@ -1,5 +1,5 @@
 Ext.Loader.setConfig({disableCaching: false});
-//Ext.Loader.setPath('Ext.plugin','lib/plugin');
+Ext.Loader.setPath('Ext.plugin','lib/plugin');
 
 /**
  * This is a demo application which shows the Ext.Map component in Sencha Touch.

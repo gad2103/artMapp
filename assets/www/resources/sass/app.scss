@@ -1,0 +1,22 @@
+$base-color: #d7d7d7;
+$active-color: #d2232a;
+
+@import 'sencha-touch/default/all';
+
+@include sencha-panel;
+@include sencha-buttons;
+@include sencha-sheet;
+@include sencha-picker;
+@include sencha-tabs; // We create a custom tab style below
+@include sencha-toolbar;
+@include sencha-carousel;
+@include sencha-indexbar;
+@include sencha-list;
+@include sencha-layout;
+@include sencha-form;
+@include sencha-msgbox;
+@include sencha-loading-spinner;
+
+//@include pictos-iconmask('settings');
+//@include pictos-iconmask('refresh');
+

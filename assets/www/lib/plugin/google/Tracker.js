@@ -2,12 +2,13 @@ Ext.ns('Ext.plugin.google');
 
 Ext.define('Ext.plugin.google.Tracker', {
     extend: 'Ext.Map',
-    requires: 'Ext.device.Geolocation',
+    //requires: 'Ext.device.Geolocation',
     xtype: 'trackmap',
     // default styles for map and lines here
     config: {
         geo: true, //BROKEN?!
         frequency: 3000,
+        watchId: null,
         marker: null, // pass in marker
         polyOptions: {
             strokeColor: '#000000',
@@ -77,6 +78,7 @@ Ext.define('Ext.plugin.google.Tracker', {
 */
     initialize: function() {
         this.callParent(arguments);
+        Ext.plugin.google.mapObj = this;
     },
     applyPolyOptions: function(optionsObj) {
         return optionsObj;
@@ -104,54 +106,43 @@ Ext.define('Ext.plugin.google.Tracker', {
         } 
     },
     startTrack: function() {
-        if ( this.stopTrack ) {
+        // stop any running trackers
+        if (this.watchId) {
             this.stopTrack();
         }
-        var gm = (window.google || {}).maps,
-        mapObj = this,
-        marker = ( mapObj.getMarker() || new gm.Marker({map: mapObj.getMap()}) ),
-        poly = mapObj.getPoly(),
-        lastLat,
-        lastLong,
-        latLng,
-        map = mapObj.getMap();
-        //get reference to parent map
-        poly.setMap(map);
-        var path = poly.getPath();
-        // this might not be necessary in production. we just need to useCurrentLocation on the map...
-        Ext.device.Geolocation.getCurrentPosition({
-            success: function(position) {
-                lastLat = position.coords;
-                lastLong = position.coords;
-                mapObj.setMapCenter(lastLat,lastLong);
-            },
-            failure: function(){
-                console.log('could not get initial position');
-            }
-        });
-        Ext.device.Geolocation.watchPosition({
-            frequency: mapObj.getFrequency(),
-            allowHighAccuracy: mapObj.getAllowHighAccuracy(),
-            callback: function(position) {
-                var currLat = position.coords.latitude,
-                currLong = position.coords.longitude;
-                if ( lastLat != null && ( currLat != lastLat || currLong != lastLong ) ) {
-                    latLng = new gm.LatLng(currLat,currLong);            
-                    console.log(latLng);
-                    map.panTo(latLng);
-                    marker.setPosition(latLng); //TODO animate this along the path from last to current position so its smooth.
-                    path.push(latLng);
-                }
-                lastLat = currLat;
-                lastLong = currLong;
-            },
-            failure: function(){
-                console.log('fuck, something happened with the geolocation');
-            }
-        });
+        Ext.plugin.google.mapObj = this;
+        var mapObj = this,
+        watchOpts = {
+            timeout: mapObj.getFrequency(),
+            enableHighAccuracy: mapObj.getAllowHighAccuracy(),
+        };
+        mapObj.watchId = navigator.geolocation.watchPosition(mapObj.watchPositionSuccess, mapObj.watchPositionError, watchOpts);
     },
     stopTrack: function(){
-        Ext.device.Geolocation.clearWatch();
+        navigator.geolocation.clearWatch(this.watchId);
+    },
+    watchPositionSuccess: function(position){
+        var mapObj = Ext.plugin.google.mapObj,
+        marker = ( mapObj.getMarker() || new window.google.maps.Marker({map: mapObj.getMap()}) ),
+        poly = mapObj.getPoly(),
+        latLng,
+        path,
+        currLat = position.coords.latitude,
+        currLong = position.coords.longitude,
+        map = mapObj.getMap();
+        marker.setMap(map);
+        poly.setMap(map);
+        path = poly.getPath();
+        //if ( lastLat != null && ( currLat != lastLat || currLong != lastLong ) ) {
+            latLng = new window.google.maps.LatLng(currLat,currLong);            
+            //console.log(latLng);
+            map.panTo(latLng);
+            marker.setPosition(latLng); //TODO animate this along the path from last to current position so its smooth.
+            path.push(latLng);
+        //}
+    },
+    watchPositionError: function(err){
+        console.log(err);
     },
     resumeTracking: function(){
         this.startTracking(true);

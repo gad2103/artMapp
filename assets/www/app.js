@@ -1,4 +1,4 @@
-Ext.Loader.setConfig({disableCaching: false});
+Ext.Loader.setConfig({disableCaching: true});
 Ext.Loader.setPath('Ext.plugin','lib/plugin');
 
 /**

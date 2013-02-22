@@ -21,7 +21,12 @@ Ext.define('AM.view.Main', {
         },
         {
             xtype: 'trackmap',
-            id: 'mainMap'
+            id: 'mainMap',
+            listeners: {
+                maprender: function(cmp, map) {
+                    cmp.setStartTracking(true);
+                }
+            }
         }],
     }
 });

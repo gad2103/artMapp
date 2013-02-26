@@ -2,23 +2,23 @@ Ext.ns('Ext.plugin.google');
 
 Ext.define('Ext.plugin.google.Tracker', {
     extend: 'Ext.Map',
-    //requires: 'Ext.device.Geolocation',
+    requires: ['Ext.device.Geolocation','Ext.device.Notification'],
     xtype: 'trackmap',
     // default styles for map and lines here
     config: {
         geo: true, //BROKEN?!
-        frequency: 3000,
+        frequency: 1000,
         watchId: null,
         marker: null, // pass in marker
         polyOptions: {
-            strokeColor: '#000000',
-            strokeOpacity: 1.0,
+            strokeColor: '#000',
+            strokeOpacity: 0.6,
             strokeWeight: 3
         },
         poly: null,
         allowHighAccuracy: true,
         mapOptions: {                        
-            zoom : 12,
+            zoom : 15,
             mapTypeId : google.maps.MapTypeId.ROADMAP,
             navigationControl: false,
             streetViewControl: false,
@@ -114,7 +114,7 @@ Ext.define('Ext.plugin.google.Tracker', {
         var mapObj = this,
         watchOpts = {
             timeout: mapObj.getFrequency(),
-            enableHighAccuracy: mapObj.getAllowHighAccuracy(),
+            enableHighAccuracy: mapObj.getAllowHighAccuracy()
         };
         mapObj.watchId = navigator.geolocation.watchPosition(mapObj.watchPositionSuccess, mapObj.watchPositionError, watchOpts);
     },
@@ -130,10 +130,12 @@ Ext.define('Ext.plugin.google.Tracker', {
         currLat = position.coords.latitude,
         currLong = position.coords.longitude,
         map = mapObj.getMap();
-        marker.setMap(map);
+        mapObj.setMarker(marker);
+        console.log(mapObj.getMarker());
         poly.setMap(map);
         path = poly.getPath();
         //if ( lastLat != null && ( currLat != lastLat || currLong != lastLong ) ) {
+        if ( currLat === null || currLong === null ) return;
             latLng = new window.google.maps.LatLng(currLat,currLong);            
             //console.log(latLng);
             map.panTo(latLng);
@@ -142,7 +144,15 @@ Ext.define('Ext.plugin.google.Tracker', {
         //}
     },
     watchPositionError: function(err){
-        console.log(err);
+        Ext.device.Notification.show({
+            title: 'GPS Error',
+            message: 'Please check to ensure GPS is enabled on your device',
+            buttons: Ext.MessageBox.OK,
+            callback: function(button){
+                mapObj.setStartTracking(false);
+                console.log('OK hit');
+            }
+        });
     },
     resumeTracking: function(){
         this.startTracking(true);

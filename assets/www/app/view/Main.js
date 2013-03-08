@@ -1,32 +1,33 @@
 Ext.define('AM.view.Main', {
     extend: 'Ext.Container',
     requires: [
-        'Ext.plugin.google.Tracker',
+        'AM.view.map.Settings', 'AM.view.map.Mapp'
     ],
     id: 'viewport',
     config: {
         layout: {
-            type: 'fit'
+            type: 'card',
+            animation: {
+                type: 'flip'
+            }
         },
         fullscreen: true,
-        items: [{
+        items: [
+            {
             xtype: 'titlebar',
             docked: 'top',
+            id: 'mainToolbar',
             title: 'ArtMapp',
             items: [
                 {
-                ui: 'back',
-                text: 'back'
+                ui: 'action',
+                text: 'Start Mapping!'
             }]
-        },
-        {
-            xtype: 'trackmap',
-            id: 'mainMap',
-            listeners: {
-                maprender: function(cmp, map) {
-                    cmp.setStartTracking(true);
-                }
-            }
-        }],
+        },{
+            xtype: 'map-settings'
+        },{
+            xtype: 'main-mapp'
+        }
+        ],
     }
 });

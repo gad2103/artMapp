@@ -10,13 +10,22 @@
         },
         {
         	"path": "cordova-2.4.0.js"
-        }
+        },
+        {
+			"path": "lib/plugin/extended-slider/SliderFieldExtended.js"
+		}
     ],
     "css": [
         {
             "path": "resources/css/app.css",
             "update": "delta"
-        }
+        },
+        {
+			"path": "lib/Ux/css/Ux.layout.Accordion.css"
+		},
+		{
+			"path": "lib/plugin/extended-slider/css/SliderFieldExtended.css"
+		}
     ],
     "appCache": {
         "cache": [

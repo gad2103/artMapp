@@ -11,13 +11,24 @@ Ext.define('AM.view.map.Settings', {
         scrollable: true,
         items: [
             {
+            xtype: 'titlebar',
+            docked: 'top',
+            id: 'mainToolbar',
+            title: 'Mappiness',
+            items: [
+                {
+                ui: 'action',
+                text: 'Start Mapping!'
+            }]
+        },
+        {
             xtype: 'fieldset',
             title: 'Your Mapp Stylez',
             instructions: 'Please enter the information above.',
             defaults: {
                 //required: true,
-                labelAlign: 'left',
-                labelWidth: '40%'
+                labelAlign: 'top',
+                labelWidth: '50%',
             },
             items: [
                 {
@@ -26,44 +37,61 @@ Ext.define('AM.view.map.Settings', {
                 label: 'give it a name',
                 required: true,
                 autoCapitalize: false
-                }
-                ]
+            }
+            ]
+        },
+        {
+            xtype: 'fieldset',
+            title: 'Customize Your Map',
+            defaults: {
+                //required: true,
+                labelAlign: 'top',
+                labelWidth: '50%',
             },
-            {
-                xtype: 'fieldset',
-                title: 'Customize Your Map',
-                items: [
-                    {
-                    xtype: 'textfield', //TODO
-                    name: 'color',
-                    inputCls: 'colorpicker',
-                    readOnly: true,
-                    label: 'give it a color'
-                    },
+            items: [
+                {
+                xtype: 'textfield', //TODO
+                name: 'color',
+                inputCls: 'colorpicker',
+                readOnly: true,
+                label: 'give it a color'
+            },
             {
                 xtype: 'textfield',
                 name: 'roadColor',
                 label: 'road color',
+                readOnly: true,
+                inputCls: 'colorpicker'
             },
             {
                 xtype: 'textfield',
                 name: 'highwayColor',
-                label: 'highway color'
+                label: 'highway color',
+                readOnly: true,
+                inputCls: 'colorpicker'
             },
             {
                 xtype: 'togglefield',
                 name: 'showLabels',
                 label: 'map labels'
             }
-                ]
-            },{
-                xtype: 'fieldset',
-                title: 'Customize Your Path',
-                items: [
-            {
+            ]
+        },{
+            xtype: 'fieldset',
+            title: 'Customize Your Path',
+            defaults: {
+                //required: true,
+                labelAlign: 'top',
+                labelWidth: '50%',
+            },
+
+            items: [
+                {
                 xtype: 'textfield',
                 name: 'pathColor',
                 label: 'color',
+                readOnly: true,
+                inputCls: 'colorpicker'
             },
             {
                 xtype: 'sliderfieldextended',
@@ -78,20 +106,19 @@ Ext.define('AM.view.map.Settings', {
             {
                 xtype: 'sliderfieldextended',
                 name: 'pathOpacity',
-                label: '(in)visibility',
+                label: 'opacity',
                 labelText: 'opacity',
                 value: .75,
                 minValue: 0,
                 maxValue: 1,
                 increment: .25
             }
-                ]
-            },{
-                xtype: 'fieldset',
-                title: 'Transportation Method',
-                items: [
-
-            {
+            ]
+        },{
+            xtype: 'fieldset',
+            title: 'Transportation Method',
+            items: [
+                {
                 xtype: 'selectfield',
                 name: 'transportationType',
                 valueField: 'rank',
@@ -104,45 +131,45 @@ Ext.define('AM.view.map.Settings', {
                     ]
                 }
             }
-                ]
-            },
-
-        // Create a docked bottom toolbar which will contain buttons to trigger various functions in our formpanel.
-        {
-            xtype: 'toolbar',
-            docked: 'bottom',
-            items: [
-            { xtype: 'spacer' },
-            // Finally we add a Save button which will mask the formpanel, and update the current record in the formpanel with
-            // the latest values from the formpanel.
-            {
-                text: 'Save',
-                ui: 'confirm',
-                scope: this,
-                handler: function() {
-                    var form = this.form;
-
-                    // Mask the form
-                    form.setMasked({
-                        xtype: 'loadmask',
-                        message: 'Saving...'
-                    });
-
-                    // Put it inside a timeout so it feels like it is going to a server.
-                    setTimeout(function() {
-                        if (form.user) {
-                            // Call the updateRecord method of formpanel with the user record instance. This will update the user record
-                            // with the latest values.
-                            form.updateRecord(form.user, true);
-                        }
-
-                        // Unmask the formpanel
-                        form.setMasked(false);
-                    }, 1000);
-                }
-            }
             ]
         }
         ]
+    },
+    initialize: function() {
+        var me = this,
+        colorDialog;
+        me.callParent();
+        console.log(me);
+        me.element.on({
+            tap: function(list, index, target, record, e, eOpts){
+                //console.log(index);
+                var self = this;
+                if (self.overlay) {
+                    self.overlay.destroy();
+                }
+                self.overlay = Ext.Viewport.add({
+                    xtype: 'panel',
+                    modal: true,
+                    centered: true,
+                    hideOnMaskTap: true,
+                    html: '<div id="colorpicker" class="cp-default"></div>',
+                    width: 273,
+                    height: 231
+                });
+                ColorPicker(document.getElementById('colorpicker'), function(hex,hsv,rgb){
+                    console.log(index);
+                    index.value = hex;
+                    index.style.background = hex;
+                });
+                self.overlay.show();
+            },
+            delegate: 'input.colorpicker'
+        });
+        /*Ext.fly('form').on({
+            tap: function(){
+                console.log('this is tapped');
+            },
+            delegate: '.colorpicker'
+        });*/
     }
 });

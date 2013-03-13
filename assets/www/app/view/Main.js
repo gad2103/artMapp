@@ -8,26 +8,28 @@ Ext.define('AM.view.Main', {
         layout: {
             type: 'card',
             animation: {
-                type: 'flip'
+                type: 'cover'
             }
         },
         fullscreen: true,
         items: [
-            {
-            xtype: 'titlebar',
-            docked: 'top',
-            id: 'mainToolbar',
-            title: 'ArtMapp',
-            items: [
-                {
-                ui: 'action',
-                text: 'Start Mapping!'
-            }]
-        },{
+{
             xtype: 'map-settings'
         },{
             xtype: 'main-mapp'
         }
         ],
+        listeners: {
+            delegate: '#mainToolbar button',
+            tap: function(button) {
+                var parent = Ext.getCmp('viewport');
+                if ( button.getText() != "Settings" ){
+                parent.setActiveItem(Ext.getCmp('mapWrapper'));
+                }
+                else {
+                    parent.setActiveItem(Ext.getCmp('mapSettings'));
+                }
+            }
+        }
     }
 });

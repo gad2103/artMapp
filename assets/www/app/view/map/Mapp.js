@@ -10,7 +10,19 @@ Ext.define('AM.view.map.Mapp', {
             type: 'fit'
         },
         fullscreen: true,
-        items: [{
+        items: [
+            {
+            xtype: 'titlebar',
+            docked: 'top',
+            id: 'mainToolbar',
+            title: 'Mappiness',
+            items: [
+                {
+                ui: 'back',
+                text: 'Settings'
+            }]
+        },/*
+            {
             xtype: 'titlebar',
             docked: 'top',
             title: 'ArtMapp',
@@ -19,7 +31,7 @@ Ext.define('AM.view.map.Mapp', {
                 ui: 'back',
                 text: 'back'
             }]
-        },
+        },*/
         {
             xtype: 'trackmap',
             id: 'mainMap',

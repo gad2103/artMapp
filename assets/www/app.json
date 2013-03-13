@@ -13,6 +13,9 @@
         },
         {
 			"path": "lib/plugin/extended-slider/SliderFieldExtended.js"
+		},
+		{
+			"path": "lib/plugin/colorpicker/colorpicker.min.js"
 		}
     ],
     "css": [
@@ -25,6 +28,9 @@
 		},
 		{
 			"path": "lib/plugin/extended-slider/css/SliderFieldExtended.css"
+		},
+		{
+			"path": "lib/plugin/colorpicker/css/colorpicker.css"
 		}
     ],
     "appCache": {

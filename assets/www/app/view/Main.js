@@ -13,23 +13,11 @@ Ext.define('AM.view.Main', {
         },
         fullscreen: true,
         items: [
-{
+            {
             xtype: 'map-settings'
         },{
             xtype: 'main-mapp'
         }
-        ],
-        listeners: {
-            delegate: '#mainToolbar button',
-            tap: function(button) {
-                var parent = Ext.getCmp('viewport');
-                if ( button.getText() != "Settings" ){
-                parent.setActiveItem(Ext.getCmp('mapWrapper'));
-                }
-                else {
-                    parent.setActiveItem(Ext.getCmp('mapSettings'));
-                }
-            }
-        }
+        ]
     }
 });

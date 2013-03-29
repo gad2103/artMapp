@@ -35,6 +35,9 @@ Ext.application({
     views: [
         'Main',
     ],
+    controllers: [
+        'Settings',
+    ],
     launch: function() {
         Ext.create('AM.view.Main');
     }

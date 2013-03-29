@@ -14,32 +14,27 @@ Ext.define('AM.view.map.Mapp', {
             {
             xtype: 'titlebar',
             docked: 'top',
-            id: 'mainToolbar',
+/            cls: 'mainToolbar',
             title: 'Mappiness',
             items: [
                 {
                 ui: 'back',
                 text: 'Settings'
             }]
-        },/*
-            {
-            xtype: 'titlebar',
-            docked: 'top',
-            title: 'ArtMapp',
-            items: [
-                {
-                ui: 'back',
-                text: 'back'
-            }]
-        },*/
+        },
         {
             xtype: 'trackmap',
             id: 'mainMap',
+            hidden: true,
             listeners: {
                 maprender: function(cmp, map) {
                     cmp.setStartTracking(true);
                 }
             }
         }],
-    }
+    },
+        initialize: function(){
+            me = this;
+            me.onAfter('painted', function(){ Ext.getCmp('mainMap').show();});
+        }
 });

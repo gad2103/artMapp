@@ -11,15 +11,22 @@ Ext.define('AM.view.map.Settings', {
         scrollable: true,
         items: [
             {
-            xtype: 'titlebar',
+            xtype: 'toolbar',
             docked: 'top',
-            id: 'mainToolbar',
             title: 'Mappiness',
             items: [
                 {
+                xtype: 'spacer'
+            },
+                {
+                xtype: 'button',
                 ui: 'action',
-                text: 'Start Mapping!'
-            }]
+                text: 'Start Mapping!',
+                handler: function() {
+                    this.parent.parent.fireEvent("showTrackMap");
+                }
+                }
+            ]
         },
         {
             xtype: 'fieldset',
@@ -139,7 +146,6 @@ Ext.define('AM.view.map.Settings', {
         var me = this,
         colorDialog;
         me.callParent();
-        console.log(me);
         me.element.on({
             tap: function(list, index, target, record, e, eOpts){
                 //console.log(index);
@@ -157,7 +163,6 @@ Ext.define('AM.view.map.Settings', {
                     height: 231
                 });
                 ColorPicker(document.getElementById('colorpicker'), function(hex,hsv,rgb){
-                    console.log(index);
                     index.value = hex;
                     index.style.background = hex;
                 });
@@ -165,11 +170,5 @@ Ext.define('AM.view.map.Settings', {
             },
             delegate: 'input.colorpicker'
         });
-        /*Ext.fly('form').on({
-            tap: function(){
-                console.log('this is tapped');
-            },
-            delegate: '.colorpicker'
-        });*/
     }
 });

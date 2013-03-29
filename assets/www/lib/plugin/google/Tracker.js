@@ -18,10 +18,13 @@ Ext.define('Ext.plugin.google.Tracker', {
         poly: null,
         allowHighAccuracy: true,
         mapOptions: {                        
-            zoom : 15,
+            zoom: 17, 
             mapTypeId : google.maps.MapTypeId.ROADMAP,
             navigationControl: false,
             streetViewControl: false,
+            zoomControl: true,
+            mapTypeControl: false,
+            rotateControl: true,
             styles: [
                 {
                 stylers: [
@@ -62,13 +65,10 @@ Ext.define('Ext.plugin.google.Tracker', {
                 featureType: "administrative",
                 elementType: "labels.text",
                 stylers: [
-                    { "visibility": "off" }
+                    { "visibility": "on" }
                 ]
             }
-            ],
-            navigationControlOptions: {
-                style: google.maps.NavigationControlStyle.DEFAULT
-            }
+            ]
         },
         startTracking: 'init' 
     },

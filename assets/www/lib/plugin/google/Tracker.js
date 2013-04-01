@@ -10,66 +10,10 @@ Ext.define('Ext.plugin.google.Tracker', {
         frequency: 1000,
         watchId: null,
         marker: null, // pass in marker
-        polyOptions: {
-            strokeColor: '#000',
-            strokeOpacity: 0.6,
-            strokeWeight: 3
-        },
+        polyOptions: {},
         poly: null,
         allowHighAccuracy: true,
-        mapOptions: {                        
-            zoom: 17, 
-            mapTypeId : google.maps.MapTypeId.ROADMAP,
-            navigationControl: false,
-            streetViewControl: false,
-            zoomControl: true,
-            mapTypeControl: false,
-            rotateControl: true,
-            styles: [
-                {
-                stylers: [
-                    { hue: "#00ffe6" },
-                    { saturation: -80 }
-                ]
-            },
-            {
-                featureType: "road",
-                elementType: "geometry",
-                stylers: [
-                    { lightness: 100 },
-                    { visibility: "simplified" }
-                ]
-            },
-            {
-                featureType: "road",
-                elementType: "labels",
-                stylers: [
-                    { visibility: "off" }
-                ]
-            },
-            {
-                featureType: "poi",
-                elementType: "labels.text",
-                stylers: [
-                    { "visibility": "off" }
-                ]
-            },
-            {
-                featureType: "poi",
-                elementType: "labels.icon",
-                stylers: [
-                    { "visibility": "off" }
-                ]
-            },
-            {
-                featureType: "administrative",
-                elementType: "labels.text",
-                stylers: [
-                    { "visibility": "on" }
-                ]
-            }
-            ]
-        },
+        mapOptions: {},
         startTracking: 'init' 
     },
     /**
@@ -86,6 +30,12 @@ Ext.define('Ext.plugin.google.Tracker', {
     updatePolyOptions: function(optionsObj) {
         this.setPolyOptions(optionsObj);
         this.setPoly(new google.maps.Polyline(optionsObj));
+    },
+    applyMapOptions: function(optionsObj) {
+        return optionsObj;
+    },
+    updateMapOptions: function(optionsObj) {
+        this.setMapOptions(optionsObj);
     },
     changePoly: function(options) {
         var polyOpts = this.getPolyOptions();
@@ -131,7 +81,7 @@ Ext.define('Ext.plugin.google.Tracker', {
         currLong = position.coords.longitude,
         map = mapObj.getMap();
         mapObj.setMarker(marker);
-        console.log(mapObj.getMarker());
+       // console.log(mapObj.getMarker());
         poly.setMap(map);
         path = poly.getPath();
         //if ( lastLat != null && ( currLat != lastLat || currLong != lastLong ) ) {

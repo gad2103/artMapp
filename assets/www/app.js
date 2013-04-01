@@ -39,6 +39,15 @@ Ext.application({
         'Settings',
     ],
     launch: function() {
+        Ext.Ajax.request({
+            // get the default map options object from the server which we can change easily if app gets restyled
+            url: 'http://greenbaumexpertmoving.com/mappy/mapDefaults.php',
+            success: function(response, opts) {
+                var mapOpts = response.responseText;
+                //TODO store map options object locally for use in map view
+                localStorage['mapDefaults'] = mapOpts;
+    }
+        });
         Ext.create('AM.view.Main');
     }
 });

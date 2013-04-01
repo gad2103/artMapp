@@ -11,7 +11,10 @@ Ext.define("AM.controller.Settings",{
         }
     },
     onShowTrackMap: function() {
-        console.log('controller fired');
+        var mapView, confVals;
+        mapView = this.getSettingsContainer();
+        confVals = mapView.getValues();
+        console.log(confVals);
         Ext.getCmp('viewport').setActiveItem(1);
     }
 });

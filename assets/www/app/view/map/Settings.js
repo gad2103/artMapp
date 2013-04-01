@@ -21,9 +21,9 @@ Ext.define('AM.view.map.Settings', {
                 {
                 xtype: 'button',
                 ui: 'action',
-                text: 'Start Mapping!',
+                text: 'Start!',
                 handler: function() {
-                    this.parent.parent.fireEvent("showTrackMap");
+                    this.parent.parent.fireEvent("showTrackMap",this.parent.parent);
                 }
                 }
             ]
@@ -40,7 +40,7 @@ Ext.define('AM.view.map.Settings', {
             items: [
                 {
                 xtype: 'textfield',
-                name: 'name',
+                name: 'mapName',
                 label: 'give it a name',
                 required: true,
                 autoCapitalize: false
@@ -58,21 +58,21 @@ Ext.define('AM.view.map.Settings', {
             items: [
                 {
                 xtype: 'textfield', //TODO
-                name: 'color',
+                name: 'mapHue',
                 inputCls: 'colorpicker',
                 readOnly: true,
                 label: 'give it a color'
             },
             {
                 xtype: 'textfield',
-                name: 'roadColor',
+                name: 'roadHue',
                 label: 'road color',
                 readOnly: true,
                 inputCls: 'colorpicker'
             },
             {
                 xtype: 'textfield',
-                name: 'highwayColor',
+                name: 'highwayHue',
                 label: 'highway color',
                 readOnly: true,
                 inputCls: 'colorpicker'
@@ -95,14 +95,14 @@ Ext.define('AM.view.map.Settings', {
             items: [
                 {
                 xtype: 'textfield',
-                name: 'pathColor',
+                name: 'strokeColor',
                 label: 'color',
                 readOnly: true,
                 inputCls: 'colorpicker'
             },
             {
                 xtype: 'sliderfieldextended',
-                name: 'pathWeight',
+                name: 'strokeWeight',
                 label: 'thickness',
                 labelText: 'thickness',
                 value: 1,
@@ -112,7 +112,7 @@ Ext.define('AM.view.map.Settings', {
             },
             {
                 xtype: 'sliderfieldextended',
-                name: 'pathOpacity',
+                name: 'strokeOpacity',
                 label: 'opacity',
                 labelText: 'opacity',
                 value: .75,

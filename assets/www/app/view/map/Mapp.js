@@ -15,7 +15,7 @@ Ext.define('AM.view.map.Mapp', {
             xtype: 'titlebar',
             docked: 'top',
             cls: 'mainToolbar',
-            title: 'Mappiness',
+            title: 'GO!',
             items: [
                 {
                 ui: 'back',
@@ -27,18 +27,18 @@ Ext.define('AM.view.map.Mapp', {
             id: 'mainMap',
             hidden: true,
             listeners: {
-                maprender: function(cmp, map) {                 
-                    var mapOpts = Ext.JSON.decode(localStorage['mapDefaults']),
+                maprender: function(cmp, map) {                     
+                                        var mapOpts = Ext.JSON.decode(localStorage['mapDefaults']),
                     polyOptions = mapOpts.polyLineOptions;
                     cmp.setPolyOptions(polyOptions);
                     map.setOptions(mapOpts.mapOptions);
-                    cmp.setStartTracking(true);
+                    //cmp.setStartTracking(true);
                 }
             }
         }],
     }, 
     initialize: function(){
-            me = this;
+            var me = this;
             me.onAfter('painted', function(){ Ext.getCmp('mainMap').show();});
     }
 });

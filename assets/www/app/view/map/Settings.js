@@ -40,7 +40,7 @@ Ext.define('AM.view.map.Settings', {
             items: [
                 {
                 xtype: 'textfield',
-                name: 'mapName',
+                name: 'name',
                 label: 'give it a name',
                 required: true,
                 autoCapitalize: false
@@ -58,25 +58,32 @@ Ext.define('AM.view.map.Settings', {
             items: [
                 {
                 xtype: 'textfield', //TODO
-                name: 'mapHue',
+                name: 'hue',
                 inputCls: 'colorpicker',
                 readOnly: true,
                 label: 'give it a color'
             },
             {
                 xtype: 'textfield',
-                name: 'roadHue',
-                label: 'road color',
+                name: 'landscape.man_made',
+                label: 'building color',
                 readOnly: true,
                 inputCls: 'colorpicker'
             },
             {
                 xtype: 'textfield',
+                name: 'road',
+                label: 'road color',
+                readOnly: true,
+                inputCls: 'colorpicker'
+            },
+            /*{
+                xtype: 'textfield',
                 name: 'highwayHue',
                 label: 'highway color',
                 readOnly: true,
                 inputCls: 'colorpicker'
-            },
+            },*/
             {
                 xtype: 'togglefield',
                 name: 'showLabels',
@@ -163,6 +170,8 @@ Ext.define('AM.view.map.Settings', {
                     height: 231
                 });
                 ColorPicker(document.getElementById('colorpicker'), function(hex,hsv,rgb){
+                    //console.log('hsv' + hsv);
+                    //console.log('hex' + hex);
                     index.value = hex;
                     index.style.background = hex;
                 });
